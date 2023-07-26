@@ -5,13 +5,17 @@ import FilmCardView from '../view/film-card-view.js';
 export default class MoviePresenter {
   #movieContainer = null;
 
-  #filmCard = new FilmCardView();
+  #filmCard = null;
 
   constructor({movieContainer}) {
     this.#movieContainer = movieContainer;
   }
 
-  init() {
+  init(movie) {
+    this.#filmCard = new FilmCardView({
+      movie: movie
+    });
+
     render(this.#filmCard, this.#movieContainer);
   }
 }
