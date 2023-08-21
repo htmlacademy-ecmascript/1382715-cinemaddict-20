@@ -13,6 +13,7 @@ export default class MovieListPresenter {
   #moviesHeaderContainer = null;
   #moviesMainContainer = null;
   #moviesFooterStatisticsContainer = null;
+  #moviesBodyContainer = null;
 
   #showMoreButtonComponnet = null;
 
@@ -23,14 +24,15 @@ export default class MovieListPresenter {
   #movieList = new FilmsListView();
   #movieListEmpty = new FilmListEmptyView();
 
-  #moviePresenter = null;
+  #moviePresenters = new Map();
 
   #movies = [];
   #renderMoviesCount = MOVIE_COUNT_PER_STEP;
-  constructor({moviesHeaderContainer, moviesMainContainer, moviesFooterStatisticsContainer, movies}) {
+  constructor({moviesHeaderContainer, moviesMainContainer, moviesFooterStatisticsContainer, moviewsBodyContainer, movies}) {
     this.#moviesHeaderContainer = moviesHeaderContainer;
     this.#moviesMainContainer = moviesMainContainer;
     this.#moviesFooterStatisticsContainer = moviesFooterStatisticsContainer;
+    this.#moviesBodyContainer = moviewsBodyContainer;
     this.#movies = movies;
   }
 
@@ -50,6 +52,8 @@ export default class MovieListPresenter {
     } else {
       render(this.#movieList, this.#moviesMainContainer);
 
+      //TODO: сейчас это вышлядит что всегда выводится только значение из MOVIE_COUNT_PER_STEP
+      //TODO: или я не понимаю?
       for(let i = 0; i < Math.min(movieList.length, MOVIE_COUNT_PER_STEP); i++) {
         this.#renderMovieCard(movieList[i]);
       }
@@ -57,11 +61,14 @@ export default class MovieListPresenter {
   }
 
   #renderMovieCard(movie) {
-    this.#moviePresenter = new MoviePresenter({
-      movieContainer: this.#movieList.getFilmCardContainer()
+    const moviePresenter = new MoviePresenter({
+      movieContainer: this.#movieList.getFilmCardContainer(),
+      moviesBodyContainer: this.#moviesBodyContainer,
+      onModeChange: this.#handleModeChange,
     });
 
-    this.#moviePresenter.init(movie);
+    moviePresenter.init(movie);
+    this.#moviePresenters.set(movie.id, moviePresenter);
   }
 
   #renderMovieListEmpty() {
@@ -88,5 +95,9 @@ export default class MovieListPresenter {
     if(this.#renderMoviesCount >= moviesCount) {
       remove(this.#showMoreButtonComponnet);
     }
+  };
+
+  #handleModeChange = () => {
+    this.#moviePresenters.forEach((presenter) => presenter.resetView());
   };
 }

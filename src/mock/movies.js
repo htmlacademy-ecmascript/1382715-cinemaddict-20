@@ -19,7 +19,8 @@ const movies = [
         'Morgan Freeman'
       ],
       'genre': [
-        'Comedy'
+        'Comedy',
+        'Drama'
       ],
       'duration': 77,
       'release': {
@@ -56,7 +57,7 @@ const movies = [
       'genre': [
         'Comedy'
       ],
-      'duration': 77,
+      'duration': 59,
       'release': {
         'date': '2019-05-11T00:00:00.000Z',
         'release_country': 'Finland'
@@ -91,7 +92,7 @@ const movies = [
       'genre': [
         'Comedy'
       ],
-      'duration': 77,
+      'duration': 129,
       'release': {
         'date': '2019-05-11T00:00:00.000Z',
         'release_country': 'Finland'

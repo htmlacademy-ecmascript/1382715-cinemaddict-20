@@ -1,5 +1,5 @@
 import AbstractView from '../framework/view/abstract-view.js';
-import {humanizeDateYear} from '../utils/data';
+import {humanizeDateYear, humanizeDateHoursMin} from '../utils/data';
 
 function creatFilmCard(movieDetail) {
   const {filmInfo, userDetails} = movieDetail;
@@ -20,7 +20,7 @@ function creatFilmCard(movieDetail) {
         <p class="film-card__rating">${filmInfo.totalRating}</p>
         <p class="film-card__info">
           <span class="film-card__year">${humanizeDateYear(filmInfo.releaseData.releaseDate)}</span>
-          <span class="film-card__duration">${filmInfo.duration}m</span>
+          <span class="film-card__duration">${humanizeDateHoursMin(filmInfo.duration)}</span>
           <span class="film-card__genre">${filmInfo.genre}</span>
         </p>
         <img src="./${filmInfo.poster}" alt="${filmInfo.alternativeTitle}" class="film-card__poster">
@@ -37,12 +37,21 @@ function creatFilmCard(movieDetail) {
 }
 export default class FilmCardView extends AbstractView {
   #movie = null;
-  constructor({movie}) {
+  #handelMoreDetailsClick = null;
+  constructor({movie, onMoreDetailClick}) {
     super();
     this.#movie = movie;
+    this.#handelMoreDetailsClick = onMoreDetailClick;
+
+    this.element.addEventListener('click', this.#moreDetailClickHendler);
   }
 
   get template() {
     return creatFilmCard(this.#movie);
   }
+
+  #moreDetailClickHendler = (evt) => {
+    evt.preventDefault();
+    this.#handelMoreDetailsClick();
+  };
 }
