@@ -5,4 +5,20 @@ const EmptyListTitle = {
   FAVORITES: 'There are no favorite movies now',
 };
 
-export {EmptyListTitle};
+const NavigationType = {
+  ALLMOVIES: 'all',
+  WATCHLIST: 'watchlist',
+  HISTORY: 'history',
+  FAVORITES: 'favorites',
+}
+
+const navigationTitle = (navigationType) => {
+  switch (navigationType) {
+    case NavigationType.ALLMOVIES: return "All movies"
+    case NavigationType.WATCHLIST: return "Watchlist"
+    case NavigationType.HISTORY: return "History"
+    case NavigationType.FAVORITES: return "Favorites"
+  }
+}
+
+export {EmptyListTitle, NavigationType, navigationTitle};

@@ -7,6 +7,8 @@ import NavigationView from '../view/navigation-view.js';
 import FilmsListView from '../view/films-list-view.js';
 import ShowMoreButtonView from '../view/show-more-button-view.js';
 import FilmListEmptyView from '../view/film-list-empty-view.js';
+import { generateNavigation } from '../model/navigation-model.js';
+
 
 const MOVIE_COUNT_PER_STEP = 5;
 export default class MovieListPresenter {
@@ -17,28 +19,35 @@ export default class MovieListPresenter {
 
   #showMoreButtonComponnet = null;
 
+  #movies = [];
+
+  #navigationList = null;
+
   #footerStatistics = new FooterStatisticsView();
   #user = new UserView();
-  #navigation = new NavigationView();
+  // #navigation = new NavigationView({
+  //   navigationList: this.#navigationList
+  // });
   #sort = new SortView();
   #movieList = new FilmsListView();
   #movieListEmpty = new FilmListEmptyView();
 
   #moviePresenters = new Map();
-
-  #movies = [];
+  
   #renderMoviesCount = MOVIE_COUNT_PER_STEP;
+  
   constructor({moviesHeaderContainer, moviesMainContainer, moviesFooterStatisticsContainer, moviewsBodyContainer, movies}) {
     this.#moviesHeaderContainer = moviesHeaderContainer;
     this.#moviesMainContainer = moviesMainContainer;
     this.#moviesFooterStatisticsContainer = moviesFooterStatisticsContainer;
     this.#moviesBodyContainer = moviewsBodyContainer;
     this.#movies = movies;
+    this.#navigationList = generateNavigation(this.#movies);
   }
 
   init() {
     render(this.#user, this.#moviesHeaderContainer);
-    render(this.#navigation, this.#moviesMainContainer);
+    render(new NavigationView({navigationList: this.#navigationList}), this.#moviesMainContainer);
     render(this.#sort, this.#moviesMainContainer);
 
     this.#renderMovieList(this.#movies);

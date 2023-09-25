@@ -1,17 +1,37 @@
 import AbstractView from '../framework/view/abstract-view.js';
+import { NavigationType, navigationTitle } from "../utils/const.js";
 
-function creatNavigation() {
+
+function creatNavigationItem(navigation, currentNavigationType) {
+  const {type, count} = navigation;
+
+  return `
+    <a href="#${type}" class="main-navigation__item main-navigation__item--active">${navigationTitle(type)}
+      ${type !== NavigationType.ALLMOVIES ? `<span class='main-navigation__item-count'>${count}</span>` : ""}
+    </a>
+  `
+}
+
+function creatNavigation(navigationList, currentNavigationType) {
+  const navigationItemsTemplate = navigationList
+    .map((filter) => creatNavigationItem(filter, currentNavigationType))
+    .join('');
   return `
     <nav class="main-navigation">
-      <a href="#all" class="main-navigation__item main-navigation__item--active">All movies</a>
-      <a href="#watchlist" class="main-navigation__item">Watchlist <span class="main-navigation__item-count">13</span></a>
-      <a href="#history" class="main-navigation__item">History <span class="main-navigation__item-count">4</span></a>
-      <a href="#favorites" class="main-navigation__item">Favorites <span class="main-navigation__item-count">8</span></a>
+    ${navigationItemsTemplate}
     </nav>
   `;
 }
+
 export default class NavigationView extends AbstractView {
+  #navigationList = null;
+  
+  constructor({navigationList}) {
+    super();
+    this.#navigationList = navigationList;
+  }
+  
   get template() {
-    return creatNavigation();
+    return creatNavigation(this.#navigationList, 'all');
   }
 }
