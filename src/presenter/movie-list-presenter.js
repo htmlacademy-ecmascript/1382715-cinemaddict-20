@@ -33,9 +33,9 @@ export default class MovieListPresenter {
   #movieListEmpty = new FilmListEmptyView();
 
   #moviePresenters = new Map();
-  
+
   #renderMoviesCount = MOVIE_COUNT_PER_STEP;
-  
+
   constructor({moviesHeaderContainer, moviesMainContainer, moviesFooterStatisticsContainer, moviewsBodyContainer, movies}) {
     this.#moviesHeaderContainer = moviesHeaderContainer;
     this.#moviesMainContainer = moviesMainContainer;

@@ -10,15 +10,15 @@ const NavigationType = {
   WATCHLIST: 'watchlist',
   HISTORY: 'history',
   FAVORITES: 'favorites',
-}
+};
 
 const navigationTitle = (navigationType) => {
   switch (navigationType) {
-    case NavigationType.ALLMOVIES: return "All movies"
-    case NavigationType.WATCHLIST: return "Watchlist"
-    case NavigationType.HISTORY: return "History"
-    case NavigationType.FAVORITES: return "Favorites"
+    case NavigationType.ALLMOVIES: return 'All movies';
+    case NavigationType.WATCHLIST: return 'Watchlist';
+    case NavigationType.HISTORY: return 'History';
+    case NavigationType.FAVORITES: return 'Favorites';
   }
-}
+};
 
 export {EmptyListTitle, NavigationType, navigationTitle};
